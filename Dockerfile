@@ -8,7 +8,7 @@ RUN apk add --no-cache \
         bash
 #RUN curl -sLO https://github.com/mholt/caddy/releases/download/v1.0.0/caddy_v1.0.0_linux_amd64.tar.gz && tar -xzf caddy_v1.0.0_linux_amd64.tar.gz && mv caddy /usr/bin/caddy && chmod 755 /usr/bin/caddy && rm -rf caddy*
 RUN curl https://getcaddy.com | bash -s personal http.ipfilter
-RUN /usr/bin/caddy -version
+RUN /usr/local/bin/caddy -version
 
 # Compile Vue into production
 FROM node:8.16-alpine as nodebuild
@@ -57,7 +57,7 @@ RUN pip3 install uwsgi
 
 RUN apk del build-dependencies
 
-COPY --from=builder /usr/bin/caddy /usr/bin/caddy
+COPY --from=builder /usr/local/bin/caddy /usr/bin/caddy
 RUN chmod -R 0775 $TYGER_ROOT
 
 EXPOSE 80 443 9090 9091
